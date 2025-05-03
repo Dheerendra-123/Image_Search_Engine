@@ -1,4 +1,3 @@
-// Frontend JavaScript (script.js)
 const searchForm = document.getElementById("search-form");
 const searchBox = document.getElementById("search-box");
 const searchresult = document.getElementById("search-results");
@@ -11,23 +10,41 @@ async function searchImages() {
     keyword = searchBox.value;
     const url = `http://localhost:5000/search-images?query=${keyword}&page=${page}`;
 
-    const response = await fetch(url);
-    const data = await response.json();
+    try {
+        const response = await fetch(url);
+        
+        // Check if the response is OK
+        if (!response.ok) {
+            throw new Error('Failed to fetch from backend');
+        }
 
-    const results = data.results;
+        const data = await response.json();
 
-    results.map((result) => {
-        const image = document.createElement("img");
-        image.src = result.urls.small;
-        const imageLink = document.createElement("a");
-        imageLink.href = result.links.html;
-        imageLink.target = "_blank";
+        // Check if results are available in the response
+        if (!data.results || data.results.length === 0) {
+            console.error('No images found');
+            return;
+        }
 
-        imageLink.appendChild(image);
-        searchresult.appendChild(imageLink);
-    });
+        const results = data.results;
 
-    showmore.style.display = "block";
+        results.map((result) => {
+            const image = document.createElement("img");
+            image.src = result.urls.small;
+            const imageLink = document.createElement("a");
+            imageLink.href = result.links.html;
+            imageLink.target = "_blank";
+
+            imageLink.appendChild(image);
+            searchresult.appendChild(imageLink);
+        });
+
+        showmore.style.display = "block";
+
+    } catch (error) {
+        console.error('Error in searchImages:', error);
+        alert('Something went wrong. Please try again later.');
+    }
 }
 
 searchForm.addEventListener("submit", (e) => {
