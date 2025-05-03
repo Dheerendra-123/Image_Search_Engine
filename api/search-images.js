@@ -1,6 +1,7 @@
-const axios = require('axios');
+// Make sure to install axios: npm install axios
+import axios from 'axios';
 
-// This is a Vercel serverless function that handles the /api/search-images route
+// This handles the /api/search-images route
 export default async function handler(req, res) {
   // Enable CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -26,7 +27,7 @@ export default async function handler(req, res) {
   // Validate inputs
   if (!ACCESS_KEY) {
     console.error('Missing Unsplash API key');
-    return res.status(500).json({ error: 'Server configuration error' });
+    return res.status(500).json({ error: 'Server configuration error - API key missing' });
   }
 
   if (!query) {
@@ -34,7 +35,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    console.log(`[Vercel] Searching for: ${query}, page: ${page}`);
+    console.log(`[Vercel API] Searching for: ${query}, page: ${page}`);
     
     // Make request to Unsplash API
     const response = await axios.get('https://api.unsplash.com/search/photos', {
@@ -46,6 +47,9 @@ export default async function handler(req, res) {
       },
     });
 
+    // Log success
+    console.log(`Successfully fetched ${response.data.results?.length || 0} images`);
+    
     // Return the data
     return res.status(200).json(response.data);
     
