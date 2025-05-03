@@ -8,8 +8,7 @@ let page = 1;
 
 async function searchImages() {
     keyword = searchBox.value;
-    const url = `image-search-engine-woad-rho.vercel.app
-/search-images?query=${keyword}&page=${page}`;
+    const url = `/search-images?query=${keyword}&page=${page}`;
 
     try {
         const response = await fetch(url);
