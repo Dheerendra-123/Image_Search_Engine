@@ -9,6 +9,7 @@ const port = process.env.PORT || 5000;
 
 // Enable CORS for all routes
 app.use(cors());
+app.use(express.json()); // Parse JSON bodies
 
 // Serve static files from the public directory (or your current directory)
 // If your files are in the root directory and not in a 'public' folder, use:
