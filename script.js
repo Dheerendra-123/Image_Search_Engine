@@ -7,7 +7,7 @@ const showmore = document.getElementById("show-more");
 const debugElement = document.createElement("div");
 debugElement.id = "debug-info";
 debugElement.style.cssText = "background: #f8f9fa; padding: 10px; margin: 10px 0; border-radius: 4px; font-family: monospace; font-size: 12px; display: none;";
-document.body.insertBefore(debugElement, searchresult);
+document.body.insertBefore(debugElement, document.querySelector("footer"));
 
 // Function to toggle debug mode
 function toggleDebug() {
@@ -39,7 +39,7 @@ function debugLog(message) {
 let keyword = "";
 let page = 1;
 
-// API URL using relative path - this works with any base URL
+// API URL using the Vercel API route
 const API_URL = "/api/search-images";
 
 async function searchImages() {
@@ -195,19 +195,8 @@ showmore.addEventListener("click", () => {
   searchImages();
 });
 
-// Add some basic styles
-const style = document.createElement('style');
-style.textContent = `
-  .loading {
-    text-align: center;
-    color: #666;
-  }
-  .error {
-    color: #d32f2f;
-    text-align: center;
-  }
-`;
-document.head.appendChild(style);
+// Hide the "Show More" button initially
+showmore.style.display = "none";
 
 // Run initial API health check
 window.addEventListener('load', checkApiHealth);
