@@ -21,7 +21,7 @@ app.use(express.static(__dirname));
 const ACCESS_KEY = process.env.UNSPLASH_ACCESS_KEY;
 
 // API endpoint for image search - using a simple string path, not a regex or pattern
-app.get('/search-images', async (req, res) => {
+app.get('api/search-images', async (req, res) => {
     const { query, page = 1 } = req.query;
 
     if (!query) {
